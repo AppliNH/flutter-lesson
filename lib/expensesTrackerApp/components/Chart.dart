@@ -11,9 +11,9 @@ class Chart extends StatelessWidget {
 
   List<Map<String,Object>> get groupedTransactionValues {
     return List.generate(7, (index) {
-      print("index:" +index.toString());
+
       final weekDay = DateTime.now().subtract(Duration(days: index));
-      print(DateFormat.E().format(weekDay));
+   
       var totalSum = 0.0;
 
       for (var i = 0; i < recentTransactions.length; i++) {
@@ -21,10 +21,10 @@ class Chart extends StatelessWidget {
           totalSum += recentTransactions[i].amount;
         } 
       }
-      print("totalSum : "+totalSum.toString());
+
       return {"day":DateFormat.E().format(weekDay).substring(0,1),"amount":totalSum}; // DateFormat.E().format(weekDay) gives us the key of the day
 
-    });
+    }).reversed.toList();
   }
 
   double get totalSpending {
@@ -38,6 +38,7 @@ class Chart extends StatelessWidget {
   Widget build(BuildContext context) {
     print(groupedTransactionValues);
     return Container(
+      //height:MediaQuery.of(context).size.height*0.18,
       margin:EdgeInsets.all(10),
       child: 
         Card(
@@ -49,7 +50,8 @@ class Chart extends StatelessWidget {
               children: 
                 groupedTransactionValues.map((data) {
                   return 
-                    Flexible(
+                    Flexible( // Flexible + FlexFit.tight == Expanded widget
+                      //flex :1, // <= look, there's even a flex props !
                       fit: FlexFit.tight, // The child is forced to fill the available space, without squeezing other items out of the screen. And here, each item should have the same space
                       child: ChartBar(spendingAmount: data["amount"], label:data["day"], spendingPrcentage: totalSpending != 0 ? (data["amount"] as double )/totalSpending : 0)
                     );

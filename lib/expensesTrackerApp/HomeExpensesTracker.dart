@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:learnflutter/components/BackAppbar.dart';
+import 'package:learnflutter/expensesTrackerApp/adlib/landscapeBool.dart';
 import 'package:learnflutter/expensesTrackerApp/classes/Transaction.dart';
 import 'package:learnflutter/expensesTrackerApp/components/AddTransaction.dart';
 import 'package:learnflutter/expensesTrackerApp/components/Chart.dart';
 import 'package:learnflutter/expensesTrackerApp/components/TransactionList.dart';
+import 'package:learnflutter/main.dart';
 
 
 class HomeExpensesTracker extends StatefulWidget {
@@ -14,29 +16,59 @@ class HomeExpensesTracker extends StatefulWidget {
 }
 
 class _HomeExpensesTrackerState extends State<HomeExpensesTracker> {
+
+  // VARS
+  bool _displayChartLandscape = false;
+  double _chartSize = 1;
+
+  final List<Transaction> _transactions = [
+    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
+  ];
+
+  // FUNCTIONS
   void openAddModal(BuildContext context) {
-    showModalBottomSheet(context: context, builder: (bContext) { 
+    showModalBottomSheet(backgroundColor: Colors.transparent,context: context, builder: (bContext) { 
       return
         GestureDetector(
           onTap: () {},
-          child: AddTransaction(addNewTransaction: _addNewTransaction,),
+          child: AddTransaction(addNewTransaction: _addNewTransaction),
           behavior: HitTestBehavior.opaque,
         );
     });
   }
-  final List<Transaction> _transactions = [
-    /*Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
-    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now())*/
-  ];
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime date ) {
 
-    final tx = new Transaction(id: DateTime.now().toString(), title: title, amount: amount, date: DateTime.now());
+    final tx = new Transaction(id: DateTime.now().toString(), title: title, amount: amount, date:date);
+
     setState(() {
       _transactions.add(tx);
     });
 
   }
+
+  void _deleteTransaction(String id) {
+
+    setState(() {
+      _transactions.removeWhere((transac)=> transac.id == id);
+    });
+    
+
+  }
+  
 
   List<Transaction> get _recentTransactions { // get are dynamically generated properties :)
 
@@ -46,17 +78,22 @@ class _HomeExpensesTrackerState extends State<HomeExpensesTracker> {
 
   }
 
+ 
   @override
   Widget build(BuildContext context) {
+    
+    final theAppBar = backAppBar(context, "Expenses tracker");
+    final usableHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top - theAppBar.preferredSize.height;
+
     return Scaffold(
-      appBar: backAppBar(context, "Expenses tracker"),
+      appBar: theAppBar,
       floatingActionButton: 
         FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {openAddModal(context);},
         ),
       body: Container(
-        padding:EdgeInsets.all(5),
+        //padding:EdgeInsets.all(5),
         child:
           SingleChildScrollView(
             child: Column(// Column takes by default all available vertical space on the screen
@@ -65,10 +102,35 @@ class _HomeExpensesTrackerState extends State<HomeExpensesTracker> {
               // .stretch on crossAxisAlignment will make items all have the same width or height, depending on Column/Row
               // crossAxisAlignment: CrossAxisAlignment.stretch <-- try it !
                   children: <Widget>[
-                
-                    Chart(recentTransactions: _recentTransactions,),
+
+                    isLandscape(context) ?
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("Show Chart"),
+                          Switch.adaptive( // .adaptive adapts the look of the widget based on the platform. Here, on iOS, you'll have the iOS cupertino switch
+                            value: _displayChartLandscape,
+                            onChanged: (value) => setState(() {_displayChartLandscape = value;}),
+                          )
+                        ]
+                      )
+                    : 
+                      Container(),
+
+                    _displayChartLandscape || !isLandscape(context) ?
+                      Container(
+                        height:usableHeight * (isLandscape(context) ? 0.7 : 0.25 ),
+                        child: Chart(recentTransactions: _recentTransactions,)
+                      )
+                    : 
+                    Container(),
+
                     
-                   TransactionList(transactions: _transactions,)
+                    
+                    Container(
+                      height:usableHeight * 0.75 ,
+                      child: TransactionList(transactions: _transactions,deleteTransaction:_deleteTransaction)
+                    )
                 
                 
               ],

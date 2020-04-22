@@ -1,11 +1,20 @@
 import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 import 'package:learnflutter/components/CardOne.dart';
 import 'package:learnflutter/expensesTrackerApp/HomeExpensesTracker.dart';
 import 'package:learnflutter/quizzApp/HomeQuizzApp.dart';
 import 'package:learnflutter/styles/colors.dart';
 import 'package:learnflutter/styles/themes.dart';
 
-void main() => runApp(new MyLearningApp());
+void main(){
+  // WidgetsFlutterBinding.ensureInitialized(); // This is mandatory to force portrait mode
+  // SystemChrome.setPreferredOrientations([// <= You can use this to force disable the possibility of landscape mode for the app
+  //   DeviceOrientation.portraitUp,
+  //   DeviceOrientation.portraitDown
+  // ]); 
+  runApp(new MyLearningApp());
+
+}
 
 class MyLearningApp extends StatelessWidget {
 
