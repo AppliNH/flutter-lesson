@@ -5,7 +5,8 @@ import 'package:learnflutter/expensesTrackerApp/classes/Transaction.dart';
 import 'package:learnflutter/expensesTrackerApp/components/AddTransaction.dart';
 import 'package:learnflutter/expensesTrackerApp/components/Chart.dart';
 import 'package:learnflutter/expensesTrackerApp/components/TransactionList.dart';
-import 'package:learnflutter/main.dart';
+import 'package:learnflutter/styles/colors.dart';
+
 
 
 class HomeExpensesTracker extends StatefulWidget {
@@ -19,23 +20,22 @@ class _HomeExpensesTrackerState extends State<HomeExpensesTracker> {
 
   // VARS
   bool _displayChartLandscape = false;
-  double _chartSize = 1;
-
+  
   final List<Transaction> _transactions = [
     Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
     Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
-    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
-    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
-    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
-    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
-    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
-    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
-    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
-    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
-    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
-    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
-    Transaction(amount: 12.51,title: "Mouse",id:"t1",date: DateTime.now()),
-    Transaction(amount: 70.98,title: "Groceries",id:"t2",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t3",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t4",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t5",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t6",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t7",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t8",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t9",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t10",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t11",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t12",date: DateTime.now()),
+    Transaction(amount: 12.51,title: "Mouse",id:"t13",date: DateTime.now()),
+    Transaction(amount: 70.98,title: "Groceries",id:"t4",date: DateTime.now()),
   ];
 
   // FUNCTIONS
@@ -87,6 +87,7 @@ class _HomeExpensesTrackerState extends State<HomeExpensesTracker> {
 
     return Scaffold(
       appBar: theAppBar,
+      backgroundColor: myWhite,
       floatingActionButton: 
         FloatingActionButton(
           child: Icon(Icons.add),

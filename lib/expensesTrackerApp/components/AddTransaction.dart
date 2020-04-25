@@ -13,6 +13,7 @@ class AddTransaction extends StatefulWidget {
 }
 
 class _AddTransactionState extends State<AddTransaction> {
+  // Changing a final will call build method, so the widget will re-render with new configuration
   final titleController = TextEditingController(); 
   final amountController = TextEditingController();
 

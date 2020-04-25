@@ -53,7 +53,11 @@ class Chart extends StatelessWidget {
                     Flexible( // Flexible + FlexFit.tight == Expanded widget
                       //flex :1, // <= look, there's even a flex props !
                       fit: FlexFit.tight, // The child is forced to fill the available space, without squeezing other items out of the screen. And here, each item should have the same space
-                      child: ChartBar(spendingAmount: data["amount"], label:data["day"], spendingPrcentage: totalSpending != 0 ? (data["amount"] as double )/totalSpending : 0)
+                      child: ChartBar(
+                        spendingAmount: data["amount"], 
+                        label:data["day"],
+                        spendingPrcentage: totalSpending != 0 ? (data["amount"] as double )/totalSpending : 0
+                      )
                     );
                 }).toList()
               

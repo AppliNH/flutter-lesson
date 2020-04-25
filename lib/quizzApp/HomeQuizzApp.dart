@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:learnflutter/components/BackAppbar.dart';
 import 'package:learnflutter/quizzApp/Quizz.dart';
 import 'package:learnflutter/quizzApp/Result.dart';
+import 'package:learnflutter/styles/colors.dart';
 
 
 class HomeQuizzApp extends StatefulWidget {
@@ -64,6 +65,7 @@ class _HomeQuizzAppState extends State<HomeQuizzApp> { // The _ in front of _Hom
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: backAppBar(context, "Quizz app"),
+        backgroundColor: myWhite,
         body: Container(
             padding: EdgeInsets.all(5),
             child: 
