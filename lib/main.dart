@@ -36,7 +36,8 @@ class MyLearningApp extends StatelessWidget {
 
         // or (better imo) :
         CategoryMeals.routeName : (ctx) => CategoryMeals(), // look at the static property of the widget
-        MealDetails.routeName : (ctx) => MealDetails()
+        MealDetails.routeName : (ctx) => MealDetails(),
+        HomeMeals.routeName: (ctx) => HomeMeals()
       },
 
       // onGenerateRoute: (settings) { // Executed to a named route, with pushNamed which is not registered in routes : {} up there

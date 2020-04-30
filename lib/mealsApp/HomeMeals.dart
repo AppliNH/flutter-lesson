@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:learnflutter/components/BackAppbar.dart';
-import 'package:learnflutter/mealsApp/screens/Categories.dart';
+import 'package:learnflutter/mealsApp/screens/Tabs.dart';
 
 class HomeMeals extends StatefulWidget {
+  static const routeName = "/mealsapp_-home";
   const HomeMeals({Key key}) : super(key: key);
 
   @override
@@ -14,9 +14,9 @@ class _HomeMealsState extends State<HomeMeals> {
   Widget build(BuildContext context) {
     return 
       Scaffold(
-        appBar: backAppBar(context, "Meals app"),
+        //appBar: backAppBar(context, "Meals app"),
         backgroundColor: Theme.of(context).canvasColor,
-        body: CategoriesScreen(),
+        body: Tabs(),
         
       );
   }
