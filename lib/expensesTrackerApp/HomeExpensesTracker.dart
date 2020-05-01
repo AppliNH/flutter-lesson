@@ -10,6 +10,9 @@ import 'package:learnflutter/styles/colors.dart';
 
 
 class HomeExpensesTracker extends StatefulWidget {
+
+  static const routeName = "/expensesapp_home";
+
   const HomeExpensesTracker({Key key}) : super(key: key);
 
   @override

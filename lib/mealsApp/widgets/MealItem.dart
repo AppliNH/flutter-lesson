@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:learnflutter/mealsApp/data/meals_data.dart';
 import 'package:learnflutter/mealsApp/models/Meal.dart';
 import 'package:learnflutter/mealsApp/screens/MealDetails.dart';
 import 'package:learnflutter/styles/colors.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({Key key,this.meal}) : super(key: key);
-
+  const MealItem({Key key,this.meal,this.removeMeal}) : super(key: key);
+  final Function removeMeal;
   final Meal meal;
+  
 
   void selectMeal(BuildContext ctx) {
 
@@ -15,7 +17,13 @@ class MealItem extends StatelessWidget {
       arguments: {
         'meal':meal
       }
-    );
+    ).then((result) {// you can receive stuff from MealDetails that has been passed with .pop()
+      
+      if(result != null) {
+        removeMeal(result);
+      }
+
+    } ); 
 
   }
 

@@ -5,7 +5,7 @@ import "package:flutter/material.dart";
 class CardOne extends StatelessWidget {
   CardOne({this.title,this.nav,this.src});
   final String title;
-  final Widget nav;
+  final String nav;
   final String src;
 
   
@@ -15,7 +15,7 @@ class CardOne extends StatelessWidget {
     Container(
      
       child: InkWell(
-          onTap: nav != null ? () => Navigator.push(context,MaterialPageRoute(builder: (context) => nav )) : ()=> print("no navig"),
+          onTap: nav != null ? () => Navigator.pushNamed(context,nav) : ()=> print("no navig"),
           borderRadius: BorderRadius.circular(5),
           child: Container(
             height: 150,

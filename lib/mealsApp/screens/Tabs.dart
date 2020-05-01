@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:learnflutter/components/BackAppbar.dart';
+import 'package:learnflutter/mealsApp/models/Meal.dart';
 import 'package:learnflutter/mealsApp/screens/Categories.dart';
 import 'package:learnflutter/mealsApp/screens/Favorites.dart';
 import 'package:learnflutter/mealsApp/widgets/MyDrawer.dart';
 import 'package:learnflutter/styles/colors.dart';
 
 class Tabs extends StatefulWidget {
-  Tabs({Key key}) : super(key: key);
+  static const routeName = "/mealsapp-tabs";
+
+  Tabs({Key key,this.favMeals}) : super(key: key);
+
+  final List<Meal> favMeals;
 
   @override
   _TabsState createState() => _TabsState();
@@ -14,20 +19,28 @@ class Tabs extends StatefulWidget {
 
 class _TabsState extends State<Tabs> {
 
-  final List<Map<String, dynamic>> _pages = [
-    {
-      'page':CategoriesScreen(),
-      'title':'Categories',
-      'color':Colors.blue
-    },
-    {
-      'page':FavoritesScreen(),
-      'title':'Favorites',
-      'color':Colors.red
-    }
-  ];
 
+  List<Map<String, dynamic>> _pages;
   int _selectedPageIndex = 0;
+
+
+  @override
+  void initState() {
+     _pages = [
+      {
+        'page':CategoriesScreen(),
+        'title':'Categories',
+        'color':Colors.blue
+      },
+      {
+        'page':FavoritesScreen(favMeals:widget.favMeals), // here widget.blabla is available :)
+        'title':'Favorites',
+        'color':Colors.red
+      }
+    ];
+    super.initState();
+  }
+
 
 
   void _selectPage(int index) {

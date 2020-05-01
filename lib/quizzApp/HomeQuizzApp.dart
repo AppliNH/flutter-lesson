@@ -6,6 +6,9 @@ import 'package:learnflutter/styles/colors.dart';
 
 
 class HomeQuizzApp extends StatefulWidget {
+
+  static const routeName = "/quizzapp_home";
+
   HomeQuizzApp({Key key}) : super(key: key);
 
   @override

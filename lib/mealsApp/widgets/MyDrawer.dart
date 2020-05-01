@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:learnflutter/mealsApp/HomeMeals.dart';
+import 'package:learnflutter/mealsApp/screens/FilterScreen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({Key key}) : super(key: key);
@@ -30,9 +31,9 @@ class MyDrawer extends StatelessWidget {
             Text("Cooking Up !" ,style:TextStyle(fontWeight: FontWeight.w700,fontSize: 30))
           ),
           Divider(thickness: 1,color: Colors.black,),
-          
-          _buildDrawerTile(icon: Icons.restaurant, title: "Meals", callback: (){ Navigator.of(context).pushNamed(HomeMeals.routeName);}),
-          _buildDrawerTile(icon: Icons.sort, title: "Filters"),
+          // pushReplacementNamed replaces the stack with the selected screen, instead of adding it to the stack
+          _buildDrawerTile(icon: Icons.restaurant, title: "Meals", callback: (){ Navigator.of(context).pushReplacementNamed(HomeMeals.routeName);}),
+          _buildDrawerTile(icon: Icons.sort, title: "Filters", callback: (){ Navigator.of(context).pushReplacementNamed(FilterScreen.routeName);}),
           _buildDrawerTile(icon: Icons.chevron_left, title: "Back to main menu", callback: (){Navigator.of(context).pushReplacementNamed("/");})
 
 

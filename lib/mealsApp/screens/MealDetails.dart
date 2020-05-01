@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:learnflutter/components/BackAppbar.dart';
 import 'package:learnflutter/mealsApp/data/meals_data.dart';
@@ -9,6 +8,10 @@ import 'package:learnflutter/styles/colors.dart';
 class MealDetails extends StatelessWidget {
   static const routeName = "/mealsapp_meals-details";
 
+  const MealDetails({Key key,this.toggleFavorite,this.isMealFav}) : super(key: key);
+
+  final Function toggleFavorite;
+  final Function isMealFav;
 
   Widget buildSectionTitle(String text) {
     return
@@ -31,7 +34,28 @@ class MealDetails extends StatelessWidget {
 
   }
 
-  const MealDetails({Key key}) : super(key: key);
+  
+
+  Widget fabDelete(BuildContext context, String mealId) {
+    return
+    FloatingActionButton(
+      child: Icon(Icons.delete),
+      onPressed: () {
+        Navigator.of(context).pop(mealId); // Nav back and passes data "meal.id" to prev screen
+
+      },
+    );
+  }
+
+  Widget fabFav(BuildContext context, String mealId) {
+    //bool is_MealFav = isMealFav(mealId);
+    //print(isMealFav(mealId));
+    return
+    FloatingActionButton(
+      child: isMealFav(mealId) ? Icon(Icons.star) : Icon(Icons.star_border),
+      onPressed: () {toggleFavorite(mealId);},
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +67,8 @@ class MealDetails extends StatelessWidget {
   
     return 
       Scaffold(
+        floatingActionButton: 
+          fabFav(context, meal.id),
         appBar: backAppBar(context, meal.title, color:Color.fromRGBO(0, 0, 0, 0.01)),
         body: 
           SingleChildScrollView(

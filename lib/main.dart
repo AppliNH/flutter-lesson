@@ -3,7 +3,11 @@ import "package:flutter/material.dart";
 import 'package:learnflutter/components/CardOne.dart';
 import 'package:learnflutter/expensesTrackerApp/HomeExpensesTracker.dart';
 import 'package:learnflutter/mealsApp/HomeMeals.dart';
+import 'package:learnflutter/mealsApp/data/meals_data.dart';
+import 'package:learnflutter/mealsApp/models/Meal.dart';
 import 'package:learnflutter/mealsApp/screens/CategoryMeals.dart';
+import 'package:learnflutter/mealsApp/screens/Favorites.dart';
+import 'package:learnflutter/mealsApp/screens/FilterScreen.dart';
 import 'package:learnflutter/mealsApp/screens/MealDetails.dart';
 import 'package:learnflutter/quizzApp/HomeQuizzApp.dart';
 import 'package:learnflutter/styles/colors.dart';
@@ -19,12 +23,85 @@ void main(){
 
 }
 
-class MyLearningApp extends StatelessWidget {
+class MyLearningApp extends StatefulWidget {
 
+  @override
+  _MyLearningAppState createState() => _MyLearningAppState();
+}
+
+class _MyLearningAppState extends State<MyLearningApp> {
   final darkThemeEnabled = false;
+
+
+  // MEALS APP----------------------------------------------------------------------
+
+  Map<String, bool> _filters = {
+    'gluten':false,
+    'lactose':false,
+    'vegan':false,
+    'vegetarian':false
+  };
+
+  List<Meal> _availableMeals = DATA_MEALS;
+  List<Meal> _favoriteMeals = [];
+
+  void toggleFavorite(String mealdId) {
+
+    final index = _favoriteMeals.indexWhere((meal) => meal.id == mealdId);
+    
+    if(index >= 0) { // already exists, removing
+      setState(() {
+        _favoriteMeals.removeAt(index);
+      });
+      
+    } else {
+      setState(() {
+        _favoriteMeals.add( DATA_MEALS.firstWhere((meal) => meal.id == mealdId) );
+      });
+    }
+
+  }
+
+
+  void _setFilters(Map<String, bool> filterData) {
+
+  setState(() {
+    _filters = filterData;
+
+    _availableMeals = DATA_MEALS.where((meal) {
+
+      if(_filters['gluten'] && !meal.isGlutenFree) {
+        return false;
+      }
+      if(_filters['lactose'] && !meal.isLactoseFree) {
+        return false;
+      }
+      if(_filters['vegan'] && !meal.isVegan) {
+        return false;
+      }
+      if(_filters['vegetarian'] && !meal.isVege) {
+        return false;
+      }
+      return true;
+
+    }).toList();
+
+  });
+
+  } 
+
+  bool _isMealFav(String mealId){
+    
+    return _favoriteMeals.any((meal) => meal.id == mealId); // return true if it exists
+
+  }
+
+  // MEALS APP------------------------------------------------------------------
+
 
   @override
   Widget build(BuildContext context) {
+    
     return new MaterialApp(
       title: "My Flutter learning app",
       debugShowCheckedModeBanner: false,
@@ -35,9 +112,15 @@ class MyLearningApp extends StatelessWidget {
         //'/mealsapp_category-meals':(ctx) => CategoryMeals()
 
         // or (better imo) :
-        CategoryMeals.routeName : (ctx) => CategoryMeals(), // look at the static property of the widget
-        MealDetails.routeName : (ctx) => MealDetails(),
-        HomeMeals.routeName: (ctx) => HomeMeals()
+
+        // MEALS APP--ROUTES----------------------------------------------------------------
+        CategoryMeals.routeName : (ctx) => CategoryMeals(availableMeals: _availableMeals,), // look at the static property of the widget
+        MealDetails.routeName : (ctx) => MealDetails(toggleFavorite:toggleFavorite,isMealFav:_isMealFav),
+        HomeMeals.routeName: (ctx) => HomeMeals(favMeals:_favoriteMeals),
+        FilterScreen.routeName : (ctx) => FilterScreen(saveFilters: _setFilters, currentFilter: _filters, )
+         // MEALS APP--ROUTES----------------------------------------------------------------
+
+
       },
 
       // onGenerateRoute: (settings) { // Executed to a named route, with pushNamed which is not registered in routes : {} up there
@@ -71,7 +154,7 @@ final AppBar appBar = new AppBar(
           )
         );
 
-class _Home extends State<Home> with WidgetsBindingObserver{
+class _Home extends State<Home> { // with WidgetsBindingObserver
 
   // Widget Lifecycle :
       // Stateless widgets : Constructor => build()
@@ -185,15 +268,15 @@ class _Home extends State<Home> with WidgetsBindingObserver{
                 children: <Widget>[
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                      child: CardOne(title: "Personality quizz exercice",nav: HomeQuizzApp(),src:"https://www.muralswallpaper.com/app/uploads/Red-Illustrated-Landscape-Sunset-Wallpaper-Mural-plain-820x532.jpg"),
+                      child: CardOne(title: "Personality quizz exercice",nav: HomeQuizzApp.routeName,src:"https://www.muralswallpaper.com/app/uploads/Red-Illustrated-Landscape-Sunset-Wallpaper-Mural-plain-820x532.jpg"),
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                      child: CardOne(title: "Expenses Tracker",nav: HomeExpensesTracker(),src:"http://getwallpapers.com/wallpaper/full/7/c/4/1031234-download-free-siberian-tiger-wallpaper-2560x1600.jpg")
+                      child: CardOne(title: "Expenses Tracker",nav: HomeExpensesTracker.routeName,src:"http://getwallpapers.com/wallpaper/full/7/c/4/1031234-download-free-siberian-tiger-wallpaper-2560x1600.jpg")
                     ),
                     Container(
                       margin: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                      child: CardOne(title: "Meals app",nav: HomeMeals(),src:"https://i.ytimg.com/vi/7TML_MTQdg4/maxresdefault.jpg")
+                      child: CardOne(title: "Meals app",nav: HomeMeals.routeName,src:"https://i.ytimg.com/vi/7TML_MTQdg4/maxresdefault.jpg")
                     ),
                 ],
               )
